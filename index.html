@@ -21,7 +21,6 @@
             overflow: hidden;
         }
 
-        /* --- ГЛАВНЫЙ ФОН --- */
         .background-wrap {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -29,7 +28,6 @@
             background: radial-gradient(circle at bottom, #0a1631 0%, #000 100%);
         }
 
-        /* Анимации звезд */
         @keyframes twinkle {
             0%, 100% { opacity: 0.3; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.1); }
@@ -40,7 +38,6 @@
             100% { transform: translate(-150px, 110vh); }
         }
 
-        /* --- КОНТЕЙНЕР КАРТОЧКИ --- */
         .glass-card-container {
             position: relative;
             z-index: 100;
@@ -53,10 +50,9 @@
         .glass-card {
             position: relative;
             width: 320px;
-            padding: 50px 35px;
+            padding: 40px 30px;
             text-align: center;
             border-radius: 45px;
-            /* Стеклянный эффект */
             background: rgba(255, 255, 255, 0.015);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
@@ -64,14 +60,12 @@
             overflow: hidden; 
         }
 
-        /* КОНТЕЙНЕРЫ ДЛЯ ЗВЕЗД (Фон и Внутри) */
         #sky, .card-stars-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
         }
 
-        /* СТИЛЬ ОБЫЧНОЙ ЗВЕЗДЫ */
         .star {
             position: absolute;
             background: #fff;
@@ -79,44 +73,53 @@
             animation: twinkle var(--t-dur) infinite ease-in-out, fall var(--f-dur) infinite linear;
         }
 
-        /* СТИЛЬ ЗВЕЗДЫ-ЛИНЗЫ (Внутри рамки) */
         .inner-star {
             position: absolute;
             background: #fff;
             border-radius: 50%;
-            /* Увеличение и свечение */
             filter: blur(0.3px) drop-shadow(0 0 5px rgba(255,255,255,1));
             animation: fall var(--f-dur) infinite linear;
         }
 
-        /* --- КОНТЕНТ --- */
         .avatar {
-            width: 140px; height: 140px; border-radius: 35px;
-            object-fit: cover; margin-bottom: 25px;
+            width: 120px; height: 120px; border-radius: 35px;
+            object-fit: cover; margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative; z-index: 10;
         }
 
         h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 3rem; margin: 0; font-weight: 100;
+            font-size: 2.8rem; margin: 0; font-weight: 100;
             letter-spacing: 6px; color: #fff;
             position: relative; z-index: 10;
         }
 
         .sub {
             color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem; margin: 15px 0 35px 0;
+            font-size: 0.8rem; margin: 10px 0 25px 0;
             position: relative; z-index: 10;
         }
 
-        .links { display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 10; }
+        .links { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 10; }
+        
         .btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; color: #fff;
-            text-decoration: none; padding: 18px;
-            font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+            border-radius: 18px; color: #fff;
+            text-decoration: none; padding: 15px;
+            font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.3s background;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Кнопка "Дешёвые звёзды" с легким акцентом */
+        .btn-stars {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         #enter-overlay {
@@ -144,6 +147,7 @@
             <h1>cold</h1>
             <div class="sub">I wish you all good luck</div>
             <div class="links">
+                <a href="https://t.me/starscold_bot" target="_blank" class="btn btn-stars">Дешёвые звёзды</a>
                 <a href="https://t.me/coId_1337" target="_blank" class="btn">Telegram</a>
                 <a href="https://discord.com/users/co1d_1337" target="_blank" class="btn">Discord</a>
             </div>
@@ -155,20 +159,16 @@
             const sky = document.getElementById('sky');
             const innerSky = document.getElementById('inner-sky');
             const card = document.querySelector('.glass-card');
-            
-            const count = 150; // Оптимальное количество для плавности
-
-            // Получаем координаты карточки для синхронизации
+            const count = 150;
             const cardRect = card.getBoundingClientRect();
 
             for (let i = 0; i < count; i++) {
                 const x = Math.random() * 100;
                 const y = Math.random() * 100;
-                const fDur = Math.random() * 12 + 8 + 's'; // Скорость падения
+                const fDur = Math.random() * 12 + 8 + 's';
                 const delay = Math.random() * 10 + 's';
                 const size = Math.random() * 2 + 1 + 'px';
 
-                // 1. Внешняя звезда (на фоне)
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = x + 'vw';
@@ -180,27 +180,18 @@
                 star.style.animationDelay = delay;
                 sky.appendChild(star);
 
-                // 2. Внутренняя звезда (эффект линзы)
                 const innerStar = document.createElement('div');
                 innerStar.className = 'inner-star';
-                
-                // Рассчитываем позицию относительно карточки
-                // Мы вычитаем отступы карточки, чтобы звезды совпадали по траектории
                 innerStar.style.left = `calc(${x}vw - ${cardRect.left}px)`;
                 innerStar.style.top = `calc(${y}vh - ${cardRect.top}px)`;
-                
-                // Увеличиваем размер в 2 раза для эффекта линзы
-                const innerSize = (parseFloat(size) * 2) + 'px';
-                innerStar.style.width = innerSize;
-                innerStar.style.height = innerSize;
-                
+                innerStar.style.width = (parseFloat(size) * 2.2) + 'px';
+                innerStar.style.height = (parseFloat(size) * 2.2) + 'px';
                 innerStar.style.setProperty('--f-dur', fDur);
                 innerStar.style.animationDelay = delay;
                 innerSky.appendChild(innerStar);
             }
         }
 
-        // Запуск после загрузки
         window.addEventListener('load', createStars);
 
         function start() {
