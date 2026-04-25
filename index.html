@@ -21,6 +21,7 @@
             overflow: hidden;
         }
 
+        /* Задний фон */
         .background-wrap {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,6 +39,7 @@
             100% { transform: translate(-150px, 110vh); }
         }
 
+        /* Контейнер карточки */
         .glass-card-container {
             position: relative;
             z-index: 100;
@@ -47,6 +49,7 @@
 
         .loaded .glass-card-container { opacity: 1; transform: translateY(0); }
 
+        /* Эффект стекла (линзы) */
         .glass-card {
             position: relative;
             width: 320px;
@@ -73,6 +76,7 @@
             animation: twinkle var(--t-dur) infinite ease-in-out, fall var(--f-dur) infinite linear;
         }
 
+        /* Звезды внутри линзы (увеличенные) */
         .inner-star {
             position: absolute;
             background: #fff;
@@ -112,16 +116,14 @@
             transition: 0.3s background;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
+        .btn:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* Кнопка "Дешёвые звёзды" с легким акцентом */
         .btn-stars {
             border: 1px solid rgba(255, 255, 255, 0.25);
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* Экран входа */
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9);
@@ -146,10 +148,13 @@
             <img src="avatar.jpg" class="avatar">
             <h1>cold</h1>
             <div class="sub">I wish you all good luck</div>
+            
             <div class="links">
-                <a href="https://t.me/starscold_bot" target="_blank" class="btn btn-stars">Дешёвые звёзды</a>
                 <a href="https://t.me/coId_1337" target="_blank" class="btn">Telegram</a>
+                
                 <a href="https://discord.com/users/co1d_1337" target="_blank" class="btn">Discord</a>
+                
+                <a href="https://t.me/starscold_bot" target="_blank" class="btn btn-stars">Дешёвые звёзды</a>
             </div>
         </div>
     </div>
@@ -169,6 +174,7 @@
                 const delay = Math.random() * 10 + 's';
                 const size = Math.random() * 2 + 1 + 'px';
 
+                // Звезды на фоне
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = x + 'vw';
@@ -180,12 +186,13 @@
                 star.style.animationDelay = delay;
                 sky.appendChild(star);
 
+                // Звезды внутри линзы
                 const innerStar = document.createElement('div');
                 innerStar.className = 'inner-star';
                 innerStar.style.left = `calc(${x}vw - ${cardRect.left}px)`;
                 innerStar.style.top = `calc(${y}vh - ${cardRect.top}px)`;
-                innerStar.style.width = (parseFloat(size) * 2.2) + 'px';
-                innerStar.style.height = (parseFloat(size) * 2.2) + 'px';
+                innerStar.style.width = (parseFloat(size) * 2.5) + 'px'; // Увеличение эффекта линзы
+                innerStar.style.height = (parseFloat(size) * 2.5) + 'px';
                 innerStar.style.setProperty('--f-dur', fDur);
                 innerStar.style.animationDelay = delay;
                 innerSky.appendChild(innerStar);
