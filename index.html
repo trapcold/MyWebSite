@@ -3,26 +3,22 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>COLD</title>
-
-    <meta name="description" content="Personal Page">
-
-    <!-- Font -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>pandemia | Blood & Glass</title>
 
 
-    <!-- Style -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="style.css">
+
 
 </head>
 
@@ -30,110 +26,229 @@
 <body>
 
 
-    <!-- BACKGROUND -->
+<!-- ENTER -->
 
-    <div class="background">
+<div class="enter" id="enter">
 
-        <div class="background-glow"></div>
-
-    </div>
-
-
-    <!-- MAIN CARD -->
-
-    <main class="card">
-
-        <div class="blood">
-
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
+    <button class="enter-btn" onclick="openSite()">
+        ENTER
+    </button>
 
 </div>
+
+
+
+
+<!-- BLOOD EFFECT -->
+
+<canvas id="bloodCanvas"></canvas>
+
+
+
+
+
+<!-- MAIN -->
+
+<div class="wrap">
+
+
+    <div class="card">
+
+
 
         <!-- AVATAR -->
 
         <div class="avatar-box">
 
             <img 
-                src="avatar.jpg"
-                alt="Avatar"
-                class="avatar">
+            src="avatar.gif"
+            class="avatar"
+            alt="pandemia avatar">
 
         </div>
 
 
-        <!-- PROFILE -->
 
-        <h1 class="name">
-            COLD
+
+
+        <!-- NAME -->
+
+        <h1 class="nick">
+            pandemia
         </h1>
 
 
-        <p class="description">
-            Personal Page
+
+        <p class="sub">
+            I wish you all good luck
         </p>
+
+
+
 
 
 
         <!-- BUTTONS -->
 
-        <div class="buttons">
+        <div class="links">
 
 
             <a 
-            href="#"
-            class="button">
+            class="btn"
+            href="https://t.me/coId_1337"
+            target="_blank">
 
-                Мой профиль
+                TELEGRAM
 
             </a>
 
 
 
             <a 
+            class="btn"
+            href="https://discord.com/"
+            target="_blank">
+
+                DISCORD
+
+            </a>
+
+
+
+            <a 
+            class="btn"
             href="https://t.me/starscold_bot"
-            class="button">
+            target="_blank">
 
-                ⭐ Бот для покупки звёзд
-
-            </a>
-
-
-
-            <a 
-            href="#"
-            class="button">
-
-                🛡 Лучший VPN
+                ⭐ ДЕШЁВЫЕ ЗВЁЗДЫ
 
             </a>
 
 
 
             <a 
-            href="#"
-            class="button">
+            class="btn"
+            href="#">
 
-                Discord
+                🛡 ЛУЧШИЙ VPN
 
             </a>
+
+
+
+            <button 
+            class="btn"
+            id="likeBtn">
+
+                ❤️ ЛАЙК
+
+            </button>
+
 
 
         </div>
 
 
 
-    </main>
 
 
 
-    <!-- SCRIPT -->
 
-    <script src="script.js"></script>
+        <!-- STATS -->
+
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                👁
+
+                <span id="views">
+                    0
+                </span>
+
+            </div>
+
+
+
+            <div class="stat">
+
+                ❤️
+
+                <span id="likes">
+                    0
+                </span>
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- QUOTE -->
+
+
+        <div class="quote">
+
+            «Полюби безразличие, и оно исцелит твои раны,
+            <br>
+            даруя свободу от страданий.»
+
+        </div>
+
+
+
+
+
+
+        <!-- FOOTER -->
+
+
+        <div class="footer-text">
+
+            все права защищены pandemia ⛧
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- MUSIC -->
+
+<audio 
+id="music"
+src="music.mp3"
+loop>
+
+</audio>
+
+
+
+
+
+
+<script src="script.js"></script>
 
 
 </body>
+
 
 </html>
