@@ -4,444 +4,250 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>pandemia</title>
+<title>pandemia | Blood & Glass</title>
 
-<style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-body{
 
-    min-height:100vh;
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
 
-    font-family:Arial, sans-serif;
-
-    overflow-x:hidden;
-
-
-    background:
-
-    radial-gradient(
-        circle at top,
-        #ff3333,
-        #250000 55%,
-        #000
-    );
-
-    color:white;
-
-}
-
-
-
-/* карточка */
-
-.card{
-
-    width:420px;
-
-    max-width:90%;
-
-    padding:35px;
-
-    border-radius:35px;
-
-
-    background:
-
-    rgba(255,255,255,.08);
-
-
-    backdrop-filter:blur(25px);
-
-
-    border:
-
-    1px solid rgba(255,255,255,.25);
-
-
-    box-shadow:
-
-    0 0 60px rgba(255,0,0,.35);
-
-
-    text-align:center;
-
-
-}
-
-
-
-/* ава */
-
-.avatar-box{
-
-    width:150px;
-
-    height:150px;
-
-    margin:auto;
-
-    overflow:hidden;
-
-    border-radius:35px;
-
-
-    border:
-
-    2px solid rgba(255,0,0,.6);
-
-
-    box-shadow:
-
-    0 0 35px red;
-
-
-}
-
-
-.avatar{
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-}
-
-
-
-
-.nick{
-
-    margin-top:25px;
-
-    font-size:40px;
-
-    font-weight:900;
-
-    letter-spacing:4px;
-
-}
-
-
-
-.sub{
-
-    margin-top:10px;
-
-    color:#ddd;
-
-}
-
-
-
-
-/* кнопки */
-
-
-.links{
-
-    margin-top:35px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:15px;
-
-}
-
-
-
-.btn{
-
-    position:relative;
-
-    padding:16px;
-
-    border-radius:20px;
-
-
-    background:
-
-    rgba(255,255,255,.08);
-
-
-    border:
-
-    1px solid rgba(255,255,255,.3);
-
-
-    color:white;
-
-    text-decoration:none;
-
-
-    font-weight:bold;
-
-
-    overflow:hidden;
-
-
-    transition:.3s;
-
-
-}
-
-
-
-.btn::before{
-
-
-    content:"";
-
-    position:absolute;
-
-
-    inset:0;
-
-
-    border-radius:20px;
-
-
-    border:2px solid transparent;
-
-
-    background:
-
-    linear-gradient(
-        90deg,
-        transparent,
-        red,
-        transparent
-    );
-
-
-    background-size:200%;
-
-
-    animation:borderMove 3s linear infinite;
-
-
-}
-
-
-
-.btn:hover{
-
-    transform:scale(1.05);
-
-    box-shadow:
-
-    0 0 30px red;
-
-}
-
-
-
-@keyframes borderMove{
-
-
-    from{
-
-        background-position:200%;
-
-    }
-
-
-    to{
-
-        background-position:-200%;
-
-    }
-
-}
-
-
-
-
-.stats{
-
-    margin-top:25px;
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:25px;
-
-}
-
-
-
-.quote{
-
-    margin-top:25px;
-
-    color:#ddd;
-
-    font-style:italic;
-
-    line-height:1.5;
-
-}
-
-
-
-.footer-text{
-
-    margin-top:25px;
-
-    color:#999;
-
-    font-size:14px;
-
-}
-
-
-
-
-@media(max-width:500px){
-
-
-.card{
-
-    padding:25px;
-
-}
-
-
-
-.nick{
-
-    font-size:32px;
-
-}
-
-
-}
-
-
-</style>
-
+<link rel="stylesheet" href="style.css">
 
 </head>
+
 
 
 <body>
 
 
+<!-- ENTER -->
 
-<div class="card">
+<div class="enter" id="enter">
+
+    <button class="enter-btn" onclick="openSite()">
+
+        ENTER
+
+    </button>
+
+</div>
 
 
+
+
+<!-- BLOOD EFFECT -->
+
+<canvas id="bloodCanvas"></canvas>
+
+
+
+
+<!-- MAIN -->
+
+<main class="wrap">
+
+
+<section class="card">
+
+
+
+<!-- AVATAR -->
 
 <div class="avatar-box">
 
-<img 
-src="avatar.gif"
-class="avatar"
-alt="avatar">
+    <img 
+    src="avatar.gif"
+    class="avatar"
+    alt="pandemia">
 
 </div>
 
 
 
-<div class="nick">
+
+
+<!-- NAME -->
+
+<h1 class="nick">
 
 pandemia
 
-</div>
+</h1>
 
 
 
-<div class="sub">
+<p class="sub">
 
 I wish you all good luck
 
-</div>
+</p>
 
 
+
+
+
+
+<!-- BUTTONS -->
 
 <div class="links">
 
 
-<a class="btn" href="#">
+<a 
+class="btn"
+href="https://t.me/coId_1337"
+target="_blank">
+
 TELEGRAM
+
 </a>
 
 
-<a class="btn" href="#">
+
+<a 
+class="btn"
+href="https://discord.com/users/co1d_1337"
+target="_blank">
+
 DISCORD
+
 </a>
 
 
-<a class="btn" href="https://t.me/starscold_bot">
+
+<a 
+class="btn"
+href="https://t.me/starscold_bot"
+target="_blank">
+
 ⭐ ДЕШЁВЫЕ ЗВЁЗДЫ
+
 </a>
 
 
-<a class="btn" href="#">
+
+<a 
+class="btn"
+href="https://t.me/cold_vpn_robot"
+target="_blank">
+
 🛡 ЛУЧШИЙ VPN
+
 </a>
 
 
-<div class="btn">
+
+<button 
+class="btn"
+id="likeBtn">
+
 ❤️ ЛАЙК
+
+</button>
+
+
+
 </div>
 
 
-</div>
 
+
+
+
+<!-- STATS -->
 
 
 <div class="stats">
 
-<div>
-👁 0
+
+<div class="stat">
+
+👁
+
+<span id="views">
+0
+</span>
+
+
 </div>
 
-<div>
-❤️ 0
-</div>
+
+
+<div class="stat">
+
+❤️
+
+<span id="likes">
+0
+</span>
+
 
 </div>
 
 
+</div>
 
-<div class="quote">
+
+
+
+
+
+
+<!-- QUOTE -->
+
+
+<p class="quote">
+
 
 «Полюби безразличие, и оно исцелит твои раны,
+<br>
 даруя свободу от страданий.»
 
-</div>
+
+</p>
 
 
 
-<div class="footer-text">
+
+
+<footer class="footer-text">
 
 все права защищены pandemia ⛧
 
-</div>
+</footer>
 
 
 
-</div>
+</section>
 
+
+</main>
+
+
+
+
+
+
+<audio 
+id="music"
+src="music.mp3"
+loop>
+
+</audio>
+
+
+
+
+<script src="script.js"></script>
 
 
 </body>
+
 
 </html>
