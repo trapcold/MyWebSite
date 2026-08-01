@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cold | Blood & Glass</title>
+<title>pandemia | Blood & Glass</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -75,10 +75,10 @@ body {
 
 .nick {
     font-family: 'Orbitron', sans-serif;
-    font-size: 50px;
+    font-size: 42px;
     text-align: center;
     margin-top: 22px;
-    letter-spacing: 5px;
+    letter-spacing: 4px;
     color: #4a0000;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
 }
@@ -239,15 +239,17 @@ body {
 
 <div class="wrap">
     <div class="card" id="mainCard">
-        <img src="avatar.jpg" class="avatar" alt="avatar">
+        <!-- Поставь вместо avatar.jpg свою гифку, например avatar.gif -->
+        <img src="avatar.gif" class="avatar" alt="avatar">
 
-        <div class="nick">cold</div>
+        <div class="nick">pandemia</div>
         <div class="sub">I wish you all good luck</div>
 
         <div class="links">
             <a class="btn" href="https://t.me/coId_1337" target="_blank">TELEGRAM</a>
             <a class="btn" href="https://discord.com/users/co1d_1337" target="_blank">DISCORD</a>
             <a class="btn" href="https://t.me/starscold_bot" target="_blank">ДЕШЁВЫЕ ЗВЁЗДЫ</a>
+            <a class="btn" href="https://t.me/cold_vpn_robot" target="_blank">ЛУЧШИЙ ВПН</a>
             <div class="btn" id="likeBtn">❤️ ЛАЙК</div>
         </div>
 
@@ -262,7 +264,7 @@ body {
         </div>
 
         <div class="footer-text">
-            все права защищены trapcold ⛧
+            все права защищены pandemia ⛧
         </div>
     </div>
 </div>
@@ -270,7 +272,6 @@ body {
 <audio id="music" src="music.mp3" loop></audio>
 
 <script>
-    // --- ЛОГИКА ВХОДА И МУЗЫКИ ---
     function openSite() {
         document.getElementById('enter').classList.add('hidden');
         const music = document.getElementById('music');
@@ -278,7 +279,6 @@ body {
         music.play().catch(() => {});
     }
 
-    // --- ЛОГИКА СТАТИСТИКИ (Локальная) ---
     let views = localStorage.getItem('views');
     views = views ? parseInt(views) + 1 : 1;
     localStorage.setItem('views', views);
@@ -307,7 +307,6 @@ body {
         likeBtn.innerHTML = '❤️ ЛАЙК ПОСТАВЛЕН';
     });
 
-    // --- ЛОГИКА КАПЕЛЬ КРОВИ (Canvas) ---
     const canvas = document.getElementById('bloodCanvas');
     const ctx = canvas.getContext('2d');
     const card = document.getElementById('mainCard');
@@ -330,7 +329,6 @@ body {
     function update() {
         ctx.clearRect(0, 0, w, h);
 
-        // Создание новых капель
         if (Math.random() < 0.08) {
             drops.push({
                 x: Math.random() * w,
@@ -342,7 +340,6 @@ body {
             });
         }
 
-        // Отрисовка и движение капель
         for (let i = drops.length - 1; i >= 0; i--) {
             let d = drops[i];
             d.y += d.speed;
@@ -355,11 +352,9 @@ body {
             ctx.lineCap = 'round';
             ctx.stroke();
 
-            // Проверка столкновения с верхней границей карточки
             if (d.y >= cardRect.top && d.y <= cardRect.top + d.speed && 
                 d.x >= cardRect.left && d.x <= cardRect.right) {
                 
-                // Создаем сплэш (блюр-эффект)
                 splashes.push({
                     x: d.x,
                     y: cardRect.top + (Math.random() * 5),
@@ -370,13 +365,11 @@ body {
                 });
                 drops.splice(i, 1);
             } 
-            // Удаляем капли, улетевшие за экран
             else if (d.y > h + 50) {
                 drops.splice(i, 1);
             }
         }
 
-        // Отрисовка блюр-пятен на границе
         for (let i = splashes.length - 1; i >= 0; i--) {
             let s = splashes[i];
             s.life -= s.decay;
@@ -387,7 +380,6 @@ body {
                 continue;
             }
 
-            // Рисуем радиальный градиент для эффекта размытия на стекле
             const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, Math.min(s.radius, s.maxRadius));
             grad.addColorStop(0, `rgba(139, 0, 0, ${s.life * 0.6})`);
             grad.addColorStop(1, `rgba(139, 0, 0, 0)`);
