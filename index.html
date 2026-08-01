@@ -1,400 +1,198 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>pandemia | Blood & Glass</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>pandemia</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
 
-body {
-    min-height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* Градиент от темно-красного к белому */
-    background: linear-gradient(180deg, #4a0000 0%, #8b0000 25%, #ffffff 80%, #ffffff 100%);
-    font-family: 'Inter', sans-serif;
-    color: #111;
-    padding: 40px 0;
-}
+<link rel="stylesheet" href="style.css">
 
-/* Холст для капель крови */
-#bloodCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 1;
-}
 
-.wrap {
-    position: relative;
-    z-index: 5;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 40px 0 100px;
-}
-
-/* Карточка - Белое стекло */
-.card {
-    position: relative;
-    width: 350px;
-    padding: 28px 28px 55px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 
-        0 20px 40px rgba(100, 0, 0, 0.15),
-        inset 0 0 20px rgba(255, 255, 255, 0.5);
-    overflow: hidden;
-}
-
-.avatar {
-    width: 145px;
-    height: 145px;
-    border-radius: 34px;
-    display: block;
-    margin: auto;
-    object-fit: cover;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.nick {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 42px;
-    text-align: center;
-    margin-top: 22px;
-    letter-spacing: 4px;
-    color: #4a0000;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
-}
-
-.sub {
-    text-align: center;
-    margin-top: 10px;
-    font-weight: 500;
-    color: #555;
-}
-
-.links {
-    margin-top: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-/* Стеклянные светлые кнопки */
-.btn {
-    position: relative;
-    overflow: hidden;
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    color: #222;
-    font-weight: 600;
-    padding: 17px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(14px);
-    transition: 0.25s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    cursor: pointer;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
-    padding: 2px;
-    background: linear-gradient(120deg, rgba(139,0,0,0.6), transparent, rgba(139,0,0,0.6));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: shine 3s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.btn:hover::before {
-    opacity: 1;
-}
-
-.btn:hover {
-    transform: scale(1.03);
-    background: rgba(255, 255, 255, 0.7);
-    color: #8b0000;
-}
-.btn:active {
-    transform: scale(0.98);
-}
-
-@keyframes shine {
-    0% { transform: translateX(-100%) }
-    100% { transform: translateX(100%) }
-}
-
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 22px;
-}
-
-.stat {
-    padding: 10px 18px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    font-weight: 600;
-    color: #333;
-}
-
-.quote {
-    margin-top: 30px;
-    font-size: 14px;
-    line-height: 1.8;
-    text-align: center;
-    color: #444;
-    font-weight: 500;
-    padding-bottom: 10px;
-}
-
-.footer-text {
-    text-align: center;
-    margin-top: 22px;
-    color: #888;
-    font-size: 12px;
-    letter-spacing: 1px;
-}
-
-/* Экран входа в стиле белого стекла */
-.enter {
-    position: fixed;
-    inset: 0;
-    z-index: 99;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    transition: 0.8s ease;
-}
-
-.enter.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(1.05);
-}
-
-.enter-btn {
-    padding: 20px 58px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(139, 0, 0, 0.3);
-    font-size: 18px;
-    font-family: 'Orbitron', sans-serif;
-    color: #8b0000;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.1);
-    transition: 0.25s ease;
-    cursor: pointer;
-}
-
-.enter-btn:hover {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: #8b0000;
-    transform: translateY(-3px);
-}
-.enter-btn:active {
-    transform: scale(0.95);
-}
-</style>
 </head>
+
+
 <body>
 
-<canvas id="bloodCanvas"></canvas>
-
-<div class="enter" id="enter">
-    <div class="enter-btn" onclick="openSite()">enter</div>
-</div>
 
 <div class="wrap">
-    <div class="card" id="mainCard">
-        <!-- Поставь вместо avatar.jpg свою гифку, например avatar.gif -->
-        <img src="avatar.gif" class="avatar" alt="avatar">
 
-        <div class="nick">pandemia</div>
-        <div class="sub">I wish you all good luck</div>
+
+    <div class="card">
+
+
+        <!-- АВАТАР GIF -->
+
+        <div class="avatar-box">
+
+            <img 
+            src="avatar.gif"
+            class="avatar"
+            alt="pandemia avatar">
+
+        </div>
+
+
+
+        <!-- НИК -->
+
+        <div class="nick">
+
+            pandemia
+
+        </div>
+
+
+
+        <div class="sub">
+
+            I wish you all good luck
+
+        </div>
+
+
+
+
+        <!-- КНОПКИ -->
 
         <div class="links">
-            <a class="btn" href="https://t.me/coId_1337" target="_blank">TELEGRAM</a>
-            <a class="btn" href="https://discord.com/users/co1d_1337" target="_blank">DISCORD</a>
-            <a class="btn" href="https://t.me/starscold_bot" target="_blank">ДЕШЁВЫЕ ЗВЁЗДЫ</a>
-            <a class="btn" href="https://t.me/cold_vpn_robot" target="_blank">ЛУЧШИЙ ВПН</a>
-            <div class="btn" id="likeBtn">❤️ ЛАЙК</div>
+
+
+            <a 
+            href="https://t.me/coId_1337"
+            class="btn"
+            target="_blank">
+
+                TELEGRAM
+
+            </a>
+
+
+
+            <a 
+            href="https://discord.com/"
+            class="btn"
+            target="_blank">
+
+                DISCORD
+
+            </a>
+
+
+
+            <a 
+            href="https://t.me/starscold_bot"
+            class="btn"
+            target="_blank">
+
+                ⭐ ДЕШЁВЫЕ ЗВЁЗДЫ
+
+            </a>
+
+
+
+            <a 
+            href="#"
+            class="btn">
+
+                🛡 ЛУЧШИЙ VPN
+
+            </a>
+
+
+
+            <div 
+            class="btn"
+            id="likeBtn">
+
+                ❤️ ЛАЙК
+
+            </div>
+
+
+
         </div>
+
+
+
+
+        <!-- СТАТИСТИКА -->
+
 
         <div class="stats">
-            <div class="stat">👁 <span id="views">0</span></div>
-            <div class="stat">❤️ <span id="likes">0</span></div>
+
+
+            <div class="stat">
+
+                👁 
+                <span id="views">
+                    0
+                </span>
+
+            </div>
+
+
+
+            <div class="stat">
+
+                ❤️ 
+                <span id="likes">
+                    0
+                </span>
+
+            </div>
+
+
         </div>
+
+
+
+
+
+        <!-- ЦИТАТА -->
 
         <div class="quote">
-            «Полюби безразличие, и оно исцелит твои раны,<br>
+
+            «Полюби безразличие, и оно исцелит твои раны,
             даруя свободу от страданий.»
+
         </div>
+
+
+
 
         <div class="footer-text">
+
             все права защищены pandemia ⛧
+
         </div>
+
+
+
     </div>
+
+
 </div>
 
-<audio id="music" src="music.mp3" loop></audio>
 
-<script>
-    function openSite() {
-        document.getElementById('enter').classList.add('hidden');
-        const music = document.getElementById('music');
-        music.volume = 0.4;
-        music.play().catch(() => {});
-    }
 
-    let views = localStorage.getItem('views');
-    views = views ? parseInt(views) + 1 : 1;
-    localStorage.setItem('views', views);
-    document.getElementById('views').textContent = views;
 
-    let likes = localStorage.getItem('likes_count') || 0;
-    document.getElementById('likes').textContent = likes;
+<audio 
+id="music"
+src="music.mp3"
+loop>
 
-    const likeBtn = document.getElementById('likeBtn');
-    if (localStorage.getItem('liked')) {
-        likeBtn.style.background = 'rgba(255, 255, 255, 0.8)';
-        likeBtn.style.color = '#8b0000';
-        likeBtn.innerHTML = '❤️ ЛАЙК ПОСТАВЛЕН';
-    }
+</audio>
 
-    likeBtn.addEventListener('click', () => {
-        if (localStorage.getItem('liked')) return;
-        
-        likes++;
-        localStorage.setItem('likes_count', likes);
-        localStorage.setItem('liked', 'true');
-        
-        document.getElementById('likes').textContent = likes;
-        likeBtn.style.background = 'rgba(255, 255, 255, 0.8)';
-        likeBtn.style.color = '#8b0000';
-        likeBtn.innerHTML = '❤️ ЛАЙК ПОСТАВЛЕН';
-    });
 
-    const canvas = document.getElementById('bloodCanvas');
-    const ctx = canvas.getContext('2d');
-    const card = document.getElementById('mainCard');
-    
-    let w, h, cardRect;
 
-    function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        cardRect = card.getBoundingClientRect();
-    }
-    
-    window.addEventListener('resize', resize);
-    window.addEventListener('scroll', resize);
-    resize();
+<script src="script.js"></script>
 
-    const drops = [];
-    const splashes = [];
-
-    function update() {
-        ctx.clearRect(0, 0, w, h);
-
-        if (Math.random() < 0.08) {
-            drops.push({
-                x: Math.random() * w,
-                y: -20,
-                speed: Math.random() * 4 + 5,
-                length: Math.random() * 15 + 10,
-                width: Math.random() * 2 + 1.5,
-                color: `rgba(${100 + Math.random()*50}, 0, 0, 0.8)`
-            });
-        }
-
-        for (let i = drops.length - 1; i >= 0; i--) {
-            let d = drops[i];
-            d.y += d.speed;
-
-            ctx.beginPath();
-            ctx.moveTo(d.x, d.y);
-            ctx.lineTo(d.x, d.y - d.length);
-            ctx.lineWidth = d.width;
-            ctx.strokeStyle = d.color;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-
-            if (d.y >= cardRect.top && d.y <= cardRect.top + d.speed && 
-                d.x >= cardRect.left && d.x <= cardRect.right) {
-                
-                splashes.push({
-                    x: d.x,
-                    y: cardRect.top + (Math.random() * 5),
-                    radius: d.width * 2,
-                    maxRadius: d.width * 8 + Math.random() * 10,
-                    life: 1.0,
-                    decay: Math.random() * 0.01 + 0.005
-                });
-                drops.splice(i, 1);
-            } 
-            else if (d.y > h + 50) {
-                drops.splice(i, 1);
-            }
-        }
-
-        for (let i = splashes.length - 1; i >= 0; i--) {
-            let s = splashes[i];
-            s.life -= s.decay;
-            s.radius += 0.2;
-
-            if (s.life <= 0) {
-                splashes.splice(i, 1);
-                continue;
-            }
-
-            const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, Math.min(s.radius, s.maxRadius));
-            grad.addColorStop(0, `rgba(139, 0, 0, ${s.life * 0.6})`);
-            grad.addColorStop(1, `rgba(139, 0, 0, 0)`);
-            
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, Math.min(s.radius, s.maxRadius), 0, Math.PI * 2);
-            ctx.fillStyle = grad;
-            ctx.fill();
-        }
-
-        requestAnimationFrame(update);
-    }
-    
-    update();
-</script>
 
 </body>
+
 </html>
