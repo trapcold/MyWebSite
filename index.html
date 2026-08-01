@@ -3,333 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cold | Starry Flow</title>
+<title>cold | Blood & Glass</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body{
-min-height:100vh;
-overflow-y:auto;
-overflow-x:hidden;
-background:black;
-font-family:'Inter',sans-serif;
-color:white;
-padding:40px 0;
+body {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Градиент от темно-красного к белому */
+    background: linear-gradient(180deg, #4a0000 0%, #8b0000 25%, #ffffff 80%, #ffffff 100%);
+    font-family: 'Inter', sans-serif;
+    color: #111;
+    padding: 40px 0;
 }
 
-.bg{
-position:fixed;
-inset:0;
-background:radial-gradient(circle at top,#09152f 0%,#020202 50%,#000 100%);
-overflow:hidden;
-z-index:0;
+/* Холст для капель крови */
+#bloodCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.penta{
-position:absolute;
-color:white;
-opacity:.2;
-animation:fall linear infinite;
-text-shadow:0 0 12px rgba(255,255,255,.8);
+.wrap {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 0 100px;
 }
 
-@keyframes fall{
-0%{transform:translateY(-120px) rotate(0deg);}
-100%{transform:translateY(120vh) rotate(360deg);}
+/* Карточка - Белое стекло */
+.card {
+    position: relative;
+    width: 350px;
+    padding: 28px 28px 55px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 
+        0 20px 40px rgba(100, 0, 0, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+    overflow: hidden;
 }
 
-.wrap{
-position:relative;
-z-index:5;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-min-height:100vh;
-padding:40px 0 100px;
+.avatar {
+    width: 145px;
+    height: 145px;
+    border-radius: 34px;
+    display: block;
+    margin: auto;
+    object-fit: cover;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.card{
-position:relative;
-width:350px;
-padding:28px 28px 55px;
-border-radius:30px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.12);
-backdrop-filter:blur(24px);
--webkit-backdrop-filter:blur(24px);
-box-shadow:
-0 0 25px rgba(255,255,255,.05),
-inset 0 0 20px rgba(255,255,255,.03);
-overflow:hidden;
+.nick {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 22px;
+    letter-spacing: 5px;
+    color: #4a0000;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
 }
 
-.blur-layer{
-position:absolute;
-inset:0;
-pointer-events:none;
+.sub {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    color: #555;
 }
 
-.blur-penta{
-position:absolute;
-color:white;
-opacity:.22;
-filter:blur(3px);
-transform:scale(1.9);
-animation:fall linear infinite;
+.links {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
-.avatar{
-width:145px;
-height:145px;
-border-radius:34px;
-display:block;
-margin:auto;
-object-fit:cover;
+/* Стеклянные светлые кнопки */
+.btn {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #222;
+    font-weight: 600;
+    padding: 17px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(14px);
+    transition: 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    cursor: pointer;
 }
 
-.nick{
-font-family:'Orbitron',sans-serif;
-font-size:50px;
-text-align:center;
-margin-top:22px;
-letter-spacing:7px;
-text-shadow:0 0 18px rgba(255,255,255,.3);
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(120deg, rgba(139,0,0,0.6), transparent, rgba(139,0,0,0.6));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: shine 3s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.sub{
-text-align:center;
-margin-top:10px;
-opacity:.72;
+.btn:hover::before {
+    opacity: 1;
 }
 
-.links{
-margin-top:28px;
-display:flex;
-flex-direction:column;
-gap:14px;
+.btn:hover {
+    transform: scale(1.03);
+    background: rgba(255, 255, 255, 0.7);
+    color: #8b0000;
+}
+.btn:active {
+    transform: scale(0.98);
 }
 
-.btn{
-position:relative;
-overflow:hidden;
-display:block;
-text-align:center;
-text-decoration:none;
-color:white;
-padding:17px;
-border-radius:24px;
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.13);
-backdrop-filter:blur(14px);
-transition:.22s ease;
+@keyframes shine {
+    0% { transform: translateX(-100%) }
+    100% { transform: translateX(100%) }
 }
 
-.btn::before{
-content:'';
-position:absolute;
-inset:0;
-border-radius:24px;
-padding:1px;
-background:linear-gradient(120deg,
-rgba(255,255,255,.9),
-transparent,
-rgba(255,255,255,.9));
--webkit-mask:
-linear-gradient(#fff 0 0) content-box,
-linear-gradient(#fff 0 0);
--webkit-mask-composite:xor;
-mask-composite:exclude;
-animation:shine 3s linear infinite;
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 22px;
 }
 
-@keyframes shine{
-0%{transform:translateX(-100%)}
-100%{transform:translateX(100%)}
+.stat {
+    padding: 10px 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    color: #333;
 }
 
-.btn:hover{transform:scale(1.03);}
-.btn:active{transform:scale(1.08);}
-
-.stats{
-display:flex;
-justify-content:center;
-gap:16px;
-margin-top:22px;
+.quote {
+    margin-top: 30px;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+    color: #444;
+    font-weight: 500;
+    padding-bottom: 10px;
 }
 
-.stat{
-padding:10px 18px;
-border-radius:18px;
-background:rgba(255,255,255,.07);
-border:1px solid rgba(255,255,255,.1);
-backdrop-filter:blur(10px);
+.footer-text {
+    text-align: center;
+    margin-top: 22px;
+    color: #888;
+    font-size: 12px;
+    letter-spacing: 1px;
 }
 
-.quote{
-margin-top:30px;
-font-size:14px;
-line-height:1.8;
-text-align:center;
-opacity:.82;
-padding-bottom:10px;
+/* Экран входа в стиле белого стекла */
+.enter {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    transition: 0.8s ease;
 }
 
-.enter{
-position:fixed;
-inset:0;
-z-index:99;
-display:flex;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.82);
-backdrop-filter:blur(10px);
-transition:1s ease;
+.enter.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.05);
 }
 
-.enter.hidden{
-opacity:0;
-pointer-events:none;
+.enter-btn {
+    padding: 20px 58px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+    color: #8b0000;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.1);
+    transition: 0.25s ease;
+    cursor: pointer;
 }
 
-.enter-btn{
-padding:20px 58px;
-border-radius:30px;
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.15);
-font-size:18px;
-letter-spacing:5px;
-text-transform:uppercase;
-backdrop-filter:blur(15px);
-transition:.25s ease;
-cursor:pointer;
+.enter-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #8b0000;
+    transform: translateY(-3px);
 }
-
-.enter-btn:active{
-transform:scale(1.1);
+.enter-btn:active {
+    transform: scale(0.95);
 }
 </style>
 </head>
-
 <body>
 
-<div class="bg" id="bg"></div>
+<canvas id="bloodCanvas"></canvas>
 
 <div class="enter" id="enter">
-<div class="enter-btn" onclick="openSite()">перейти</div>
+    <div class="enter-btn" onclick="openSite()">enter</div>
 </div>
 
 <div class="wrap">
-<div class="card">
+    <div class="card" id="mainCard">
+        <img src="avatar.jpg" class="avatar" alt="avatar">
 
-<div class="blur-layer" id="blurLayer"></div>
+        <div class="nick">cold</div>
+        <div class="sub">I wish you all good luck</div>
 
-<img src="avatar.jpg" class="avatar">
+        <div class="links">
+            <a class="btn" href="https://t.me/coId_1337" target="_blank">TELEGRAM</a>
+            <a class="btn" href="https://discord.com/users/co1d_1337" target="_blank">DISCORD</a>
+            <a class="btn" href="https://t.me/starscold_bot" target="_blank">ДЕШЁВЫЕ ЗВЁЗДЫ</a>
+            <div class="btn" id="likeBtn">❤️ ЛАЙК</div>
+        </div>
 
-<div class="nick">cold</div>
+        <div class="stats">
+            <div class="stat">👁 <span id="views">0</span></div>
+            <div class="stat">❤️ <span id="likes">0</span></div>
+        </div>
 
-<div class="sub">I wish you all good luck</div>
+        <div class="quote">
+            «Полюби безразличие, и оно исцелит твои раны,<br>
+            даруя свободу от страданий.»
+        </div>
 
-<div class="links">
-<a class="btn" href="https://t.me/coId_1337" target="_blank">TELEGRAM</a>
-<a class="btn" href="https://discord.com/users/co1d_1337" target="_blank">DISCORD</a>
-<a class="btn" href="https://t.me/starscold_bot" target="_blank">ДЕШЁВЫЕ ЗВЁЗДЫ</a>
-<div class="btn" id="likeBtn">❤️ ЛАЙК</div>
-</div>
-
-<div class="stats">
-<div class="stat">👁 <span id="views">0</span></div>
-<div class="stat">❤️ <span id="likes">0</span></div>
-</div>
-
-<div class="quote">
-«Полюби безразличие, и оно исцелит твои раны,<br>
-даруя свободу от страданий.»
-</div>
-
-
-<div style="
-text-align:center;
-margin-top:22px;
-opacity:.45;
-font-size:12px;
-letter-spacing:1px;
-">
-все права защищены trapcold ⛧
-</div>
-
-</div>
+        <div class="footer-text">
+            все права защищены trapcold ⛧
+        </div>
+    </div>
 </div>
 
 <audio id="music" src="music.mp3" loop></audio>
 
 <script>
-const bg = document.getElementById('bg');
-const blurLayer = document.getElementById('blurLayer');
+    // --- ЛОГИКА ВХОДА И МУЗЫКИ ---
+    function openSite() {
+        document.getElementById('enter').classList.add('hidden');
+        const music = document.getElementById('music');
+        music.volume = 0.4;
+        music.play().catch(() => {});
+    }
 
-for(let i=0;i<85;i++){
-const p=document.createElement('div');
-p.className='penta';
-p.innerHTML='⛧';
-p.style.left=Math.random()*100+'vw';
-p.style.fontSize=(Math.random()*24+12)+'px';
-p.style.animationDuration=(Math.random()*10+8)+'s';
-p.style.animationDelay=Math.random()*10+'s';
-bg.appendChild(p);
-}
+    // --- ЛОГИКА СТАТИСТИКИ (Локальная) ---
+    let views = localStorage.getItem('views');
+    views = views ? parseInt(views) + 1 : 1;
+    localStorage.setItem('views', views);
+    document.getElementById('views').textContent = views;
 
-for(let i=0;i<30;i++){
-const p=document.createElement('div');
-p.className='blur-penta';
-p.innerHTML='⛧';
-p.style.left=Math.random()*100+'%';
-p.style.fontSize=(Math.random()*24+14)+'px';
-p.style.animationDuration=(Math.random()*10+8)+'s';
-p.style.animationDelay=Math.random()*10+'s';
-blurLayer.appendChild(p);
-}
+    let likes = localStorage.getItem('likes_count') || 0;
+    document.getElementById('likes').textContent = likes;
 
-let views = localStorage.getItem('views');
-views = views ? parseInt(views)+1 : 1;
-localStorage.setItem('views',views);
-document.getElementById('views').textContent = views;
+    const likeBtn = document.getElementById('likeBtn');
+    if (localStorage.getItem('liked')) {
+        likeBtn.style.background = 'rgba(255, 255, 255, 0.8)';
+        likeBtn.style.color = '#8b0000';
+        likeBtn.innerHTML = '❤️ ЛАЙК ПОСТАВЛЕН';
+    }
 
-let likes = localStorage.getItem('likes_count') || 0;
-document.getElementById('likes').textContent = likes;
+    likeBtn.addEventListener('click', () => {
+        if (localStorage.getItem('liked')) return;
+        
+        likes++;
+        localStorage.setItem('likes_count', likes);
+        localStorage.setItem('liked', 'true');
+        
+        document.getElementById('likes').textContent = likes;
+        likeBtn.style.background = 'rgba(255, 255, 255, 0.8)';
+        likeBtn.style.color = '#8b0000';
+        likeBtn.innerHTML = '❤️ ЛАЙК ПОСТАВЛЕН';
+    });
 
-const likeBtn = document.getElementById('likeBtn');
+    // --- ЛОГИКА КАПЕЛЬ КРОВИ (Canvas) ---
+    const canvas = document.getElementById('bloodCanvas');
+    const ctx = canvas.getContext('2d');
+    const card = document.getElementById('mainCard');
+    
+    let w, h, cardRect;
 
-if(localStorage.getItem('liked')){
-likeBtn.style.opacity='.5';
-likeBtn.innerHTML='❤️ ЛАЙК ПОСТАВЛЕН';
-}
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        cardRect = card.getBoundingClientRect();
+    }
+    
+    window.addEventListener('resize', resize);
+    window.addEventListener('scroll', resize);
+    resize();
 
-likeBtn.addEventListener('click',()=>{
-if(localStorage.getItem('liked')) return;
+    const drops = [];
+    const splashes = [];
 
-likes++;
-localStorage.setItem('likes_count',likes);
-localStorage.setItem('liked','true');
+    function update() {
+        ctx.clearRect(0, 0, w, h);
 
-document.getElementById('likes').textContent = likes;
-likeBtn.style.opacity='.5';
-likeBtn.innerHTML='❤️ ЛАЙК ПОСТАВЛЕН';
-});
+        // Создание новых капель
+        if (Math.random() < 0.08) {
+            drops.push({
+                x: Math.random() * w,
+                y: -20,
+                speed: Math.random() * 4 + 5,
+                length: Math.random() * 15 + 10,
+                width: Math.random() * 2 + 1.5,
+                color: `rgba(${100 + Math.random()*50}, 0, 0, 0.8)`
+            });
+        }
 
-function openSite(){
-document.getElementById('enter').classList.add('hidden');
+        // Отрисовка и движение капель
+        for (let i = drops.length - 1; i >= 0; i--) {
+            let d = drops[i];
+            d.y += d.speed;
 
-const music=document.getElementById('music');
-music.volume=.4;
-music.play().catch(()=>{});
-}
+            ctx.beginPath();
+            ctx.moveTo(d.x, d.y);
+            ctx.lineTo(d.x, d.y - d.length);
+            ctx.lineWidth = d.width;
+            ctx.strokeStyle = d.color;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // Проверка столкновения с верхней границей карточки
+            if (d.y >= cardRect.top && d.y <= cardRect.top + d.speed && 
+                d.x >= cardRect.left && d.x <= cardRect.right) {
+                
+                // Создаем сплэш (блюр-эффект)
+                splashes.push({
+                    x: d.x,
+                    y: cardRect.top + (Math.random() * 5),
+                    radius: d.width * 2,
+                    maxRadius: d.width * 8 + Math.random() * 10,
+                    life: 1.0,
+                    decay: Math.random() * 0.01 + 0.005
+                });
+                drops.splice(i, 1);
+            } 
+            // Удаляем капли, улетевшие за экран
+            else if (d.y > h + 50) {
+                drops.splice(i, 1);
+            }
+        }
+
+        // Отрисовка блюр-пятен на границе
+        for (let i = splashes.length - 1; i >= 0; i--) {
+            let s = splashes[i];
+            s.life -= s.decay;
+            s.radius += 0.2;
+
+            if (s.life <= 0) {
+                splashes.splice(i, 1);
+                continue;
+            }
+
+            // Рисуем радиальный градиент для эффекта размытия на стекле
+            const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, Math.min(s.radius, s.maxRadius));
+            grad.addColorStop(0, `rgba(139, 0, 0, ${s.life * 0.6})`);
+            grad.addColorStop(1, `rgba(139, 0, 0, 0)`);
+            
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, Math.min(s.radius, s.maxRadius), 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+        }
+
+        requestAnimationFrame(update);
+    }
+    
+    update();
 </script>
 
 </body>
