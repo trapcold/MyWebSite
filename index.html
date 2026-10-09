@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090607">
+  <meta name="description" content="pandemia — personal page">
+  <title>pandemia — personal space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="boot-screen" id="bootScreen" aria-label="Загрузка сайта">
+    <div class="boot-content">
+      <div class="boot-symbol"><span></span><span></span><span></span></div>
+      <p class="boot-label">PERSONAL SYSTEM / 001</p>
+      <h2>INITIALIZING <span>PANDEMIA</span><i>...</i></h2>
+      <div class="boot-progress"><span id="bootProgress"></span></div>
+      <p class="boot-status" id="bootStatus">ESTABLISHING CONNECTION</p>
+    </div>
+    <div class="boot-corner boot-left">PC / 2026</div><div class="boot-corner boot-right">SECURE SESSION</div>
+  </div>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="blood-layer" aria-hidden="true" id="bloodLayer"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="stage">
+    <section class="intro" id="intro" aria-label="Стартовый экран">
+      <div class="intro-mark"><span class="mark-dot"></span> PERSONAL SPACE <span class="mark-line"></span></div>
+      <p class="eyebrow intro-typed" id="introEyebrow">WELCOME TO MY WORLD<span class="typing-caret">_</span></p>
+      <h1 class="intro-title">pande<span>mia</span><i>.</i></h1>
+      <p class="intro-copy">A little corner of the internet.<br>Stay curious. Stay cold.</p>
+      <button class="enter-button" id="enterButton"><span>ПЕРЕЙТИ</span><span class="arrow">↗</span><span class="button-flash"></span></button>
+      <div class="intro-foot"><span>EST. 2026</span><span>SCROLL LESS · FEEL MORE</span></div>
+    </section>
+
+    <section class="profile glass hidden" id="profile" aria-label="Профиль">
+      <div class="glass-cursor-glow" aria-hidden="true"></div>
+      <div class="profile-blood" id="profileBlood" aria-hidden="true"></div>
+      <div class="card-top"><span class="status"><span></span> ONLINE</span><span class="live-clock"><span id="liveDate">-- --- ----</span><b id="liveTime">--:--:--</b></span><div class="theme-switcher" aria-label="Выбор темы">
+        <button class="theme-choice active" data-theme="crimson" aria-label="Кроваво-красная тема" title="Crimson"></button>
+        <button class="theme-choice ice" data-theme="ice" aria-label="Ледяная синяя тема" title="Ice"></button>
+        <button class="theme-choice void" data-theme="void" aria-label="Чёрная тема" title="Void"></button>
+      </div><span class="card-index">PROFILE / 001</span></div>
+      <div class="profile-head">
+        <div class="avatar-wrap"><div class="avatar-halo"></div><img class="avatar" src="avatar.jpg" alt="Аватар pandemia" onerror="this.classList.add('avatar-missing')"><span class="avatar-fallback">P</span></div>
+        <div class="identity"><p class="eyebrow">DIGITAL IDENTITY</p><h2>pandemia<span>.</span></h2><p class="handle">@pandemia707</p><div class="tags"><span>NO SIGNAL</span><span>ONLINE</span></div></div>
+      </div>
+      <div class="separator"><span>CONNECT WITH ME</span><span class="separator-line"></span></div>
+      <nav class="links" aria-label="Ссылки профиля">
+        <a class="link-card" href="https://t.me/pandemia707" target="_blank" rel="noreferrer"><span class="link-icon">↗</span><span><b>Мой Telegram</b><small>@pandemia707</small></span><span class="link-arrow">↗</span></a>
+        <a class="link-card" href="https://t.me/starscold_bot" target="_blank" rel="noreferrer"><span class="link-icon">✦</span><span><b>Бот со звёздами</b><small>@starscold_bot</small></span><span class="link-arrow">↗</span></a>
+        <a class="link-card" href="https://t.me/cold_vpn_robot" target="_blank" rel="noreferrer"><span class="link-icon">⌁</span><span><b>Лучший VPN</b><small>@cold_vpn_robot</small></span><span class="link-arrow">↗</span></a>
+        <a class="link-card" href="https://discord.com/" target="_blank" rel="noreferrer"><span class="link-icon">◈</span><span><b>Мой Discord</b><small>Открыть Discord</small></span><span class="link-arrow">↗</span></a>
+      </nav>
+      <div class="music-panel">
+        <div class="music-art"><span>♫</span></div><div class="music-info"><b>MY SOUNDTRACK</b><small id="musicStatus">Нажми, чтобы включить</small></div>
+        <button class="music-button" id="musicButton" aria-label="Включить музыку" aria-pressed="false"><span id="musicIcon">▶</span></button>
+        <audio id="siteMusic" src="music.mp3" preload="none" loop></audio>
+      </div>
+      <div class="card-bottom"><span>bio — @pandemia_1337</span><span class="pulse-dot"></span><span>MADE WITH INTENT</span></div>
+    </section>
+    <footer class="site-footer"><span>© PANDEMIA 2026</span><span>BLACK / CRIMSON / GLASS</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
